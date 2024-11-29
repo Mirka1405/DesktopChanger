@@ -61,7 +61,7 @@ function button_totray:onClick()
     win:loadtrayicon()
     button_totray.text = "Move to tray"
   else
-    win:loadtrayicon("dsktp_chng.ico")
+    win:loadtrayicon(arg[-1])
     button_totray.text = "Remove from tray"
     win:hide()
   end
@@ -71,7 +71,7 @@ function win:onTrayHover()
   self.traytooltip = "DesktopChanger"
 end
 
-local dc_menu = ui.Menu("Show window","Set desktop","Refresh desktop list")
+local dc_menu = ui.Menu("Show window","Set desktop","Refresh desktop list","Close program")
 local desktops_submenu = ui.Menu()
 for i in each(getdesktops()) do
   local added = desktops_submenu:add(i)
@@ -81,6 +81,10 @@ for i in each(getdesktops()) do
 end
 local show_win = dc_menu.items[1]
 local refresh_choice = dc_menu.items[3]
+local close_choice = dc_menu.items[4]
+function close_choice:onClick()
+  os.exit()
+end
 function show_win:onClick()
   win:show()
 end
