@@ -71,7 +71,7 @@ function win:onTrayHover()
   self.traytooltip = "DesktopChanger"
 end
 
-local dc_menu = ui.Menu("Show window","Set desktop")
+local dc_menu = ui.Menu("Show window","Set desktop","Refresh desktop list")
 local desktops_submenu = ui.Menu()
 for i in each(getdesktops()) do
   local added = desktops_submenu:add(i)
@@ -80,8 +80,18 @@ for i in each(getdesktops()) do
   end
 end
 local show_win = dc_menu.items[1]
+local refresh_choice = dc_menu.items[3]
 function show_win:onClick()
   win:show()
+end
+function refresh_choice:onClick()
+  desktops_submenu.items = {}
+  for i in each(getdesktops()) do
+    local added = desktops_submenu:add(i)
+    function added:onClick()
+      makeJunction(self.text)
+    end
+  end
 end
 dc_menu.items[2].submenu = desktops_submenu
 function win:onTrayContext()
